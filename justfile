@@ -95,7 +95,7 @@ lint: install
 # Format all the project files
 format:
     @echo -e "\nFormat go code"
-    gofmt -w cli/
+    gofmt -w .
 
     @echo -e "\nFormat other code with prettier (yaml, md...)"
     prettier -w .
