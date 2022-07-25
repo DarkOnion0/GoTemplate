@@ -1,0 +1,71 @@
+name: Publish Changelog
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  release:
+    types: [created]
+
+jobs:
+  Generate-Release-Changelog:
+    runs-on: ubuntu-latest
+    if: github.event_name == "release"
+    permissions:
+     contents: write
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: cachix/install-nix-action@v15
+        with:
+          nix_path: nixpkgs=channel:nixos-22.05
+
+      - name: Format tag
+        if: github.event_name != 'workflow_dispatch'
+        run: |
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Add VERSION to the action env
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Generate a changelog with git-cliff (release)
+        if: github.event_name == "release"
+        run: nix-shell --command "just TYPE='release' generate_changelog"
+      
+      - name: Commit changelog (release)
+        if: github.event_name == "release"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(release): publish changelog for ${{ env.VERSION }}, `GithubCI`"
+          branch: ${{ github.head_ref }}
+
+      - name: Publish release note
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        run: nix-shell --command "just TYPE='ci' VERSION=${{ env.VERSION }} generate_changelog"
+      
+  Generate-Latest-Changelog:
+    runs-on: ubuntu-latest
+    if: github.event_name == "schedule"
+    permissions:
+     contents: write
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: cachix/install-nix-action@v15
+        with:
+          nix_path: nixpkgs=channel:nixos-22.05
+
+      - name: Generate a changelog with git-cliff (cron)
+        if: github.event_name != "release"
+        run: nix-shell --command "just generate_changelog"
+      
+      - name: Commit changelog (cron)
+        if: github.event_name != "release"
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(release): publish latest changelog, `GithubCI`"
+          branch: ${{ github.head_ref }}

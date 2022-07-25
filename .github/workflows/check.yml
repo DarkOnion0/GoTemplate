@@ -1,0 +1,53 @@
+name: Check code
+
+on:
+  push:
+    branches: [main]
+  
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    permissions:
+     contents: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - uses: cachix/install-nix-action@v15
+        with:
+          nix_path: nixpkgs=channel:nixos-22.05
+
+      - name: Lint code
+        run: nix-shell --command "just lint"
+
+      - name: Commit code
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "reformat: lint code, `GithubCI`"
+          branch: ${{ github.head_ref }}
+
+  Format:
+    runs-on: ubuntu-latest
+    needs: [Lint]
+    permissions:
+     contents: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - uses: cachix/install-nix-action@v15
+        with:
+          nix_path: nixpkgs=channel:nixos-22.05
+
+      - name: Lint code
+        run: nix-shell --command "just lint"
+
+      - name: Commit code
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "reformat: format code, `GithubCI`"
+          branch: ${{ github.head_ref }}
+
