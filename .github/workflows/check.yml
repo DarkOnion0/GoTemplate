@@ -28,6 +28,8 @@ jobs:
         with:
           commit_message: "reformat: lint code, `GithubCI`"
           branch: ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Format:
     runs-on: ubuntu-latest
@@ -50,4 +52,6 @@ jobs:
         with:
           commit_message: "reformat: format code, `GithubCI`"
           branch: ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

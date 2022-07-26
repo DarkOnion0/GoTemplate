@@ -39,6 +39,8 @@ jobs:
         with:
           commit_message: "chore(release): publish changelog for ${{ env.VERSION }}, `GithubCI`"
           branch: ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish release note
         env:
@@ -69,3 +71,5 @@ jobs:
         with:
           commit_message: "chore(release): publish latest changelog, `GithubCI`"
           branch: ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
