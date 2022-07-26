@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.COMMIT_TOKEN }}
 
       - uses: cachix/install-nix-action@v15
         with:
@@ -28,8 +30,6 @@ jobs:
         with:
           commit_message: "reformat: lint code, `GithubCI`"
           branch: ${{ github.head_ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Format:
     runs-on: ubuntu-latest
@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.COMMIT_TOKEN }}
 
       - uses: cachix/install-nix-action@v15
         with:
@@ -52,6 +54,4 @@ jobs:
         with:
           commit_message: "reformat: format code, `GithubCI`"
           branch: ${{ github.head_ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

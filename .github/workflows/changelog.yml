@@ -16,6 +16,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ secrets.COMMIT_TOKEN }}
 
       - uses: cachix/install-nix-action@v15
         with:
@@ -39,8 +40,6 @@ jobs:
         with:
           commit_message: "chore(release): publish changelog for ${{ env.VERSION }}, `GithubCI`"
           branch: ${{ github.head_ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish release note
         env:
@@ -55,6 +54,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          token: ${{ secrets.COMMIT_TOKEN }}
           fetch-depth: 0
 
       - uses: cachix/install-nix-action@v15
@@ -71,5 +71,3 @@ jobs:
         with:
           commit_message: "chore(release): publish latest changelog, `GithubCI`"
           branch: ${{ github.head_ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
