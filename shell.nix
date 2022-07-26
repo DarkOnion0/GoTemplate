@@ -25,6 +25,9 @@ pkgs.mkShell {
       gopls
       rnix-lsp
 
+      # Debugger
+      delve
+
       # Scripting
       zip
       unzip
