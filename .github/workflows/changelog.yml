@@ -30,7 +30,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Generate a changelog with git-cliff (release)
-        run: nix-shell --command "just VERSION=${{ env.VERSION }} TYPE='release' generate_changelog"
+        run: nix-shell --command "just VERSION=${{ env.VERSION }} generate_changelog TYPE='release'"
 
       - name: Commit changelog (release)
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -41,7 +41,7 @@ jobs:
       - name: Publish release note
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: nix-shell --command "just TYPE='ci' VERSION=${{ env.VERSION }} generate_changelog"
+        run: nix-shell --command "just VERSION=${{ env.VERSION }} generate_changelog TYPE='ci'"
 
   Generate-Latest-Changelog:
     runs-on: ubuntu-latest
