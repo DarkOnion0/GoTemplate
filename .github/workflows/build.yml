@@ -24,7 +24,7 @@ jobs:
 
       - name: Build without publishing
         uses: goreleaser/goreleaser-action@v3
-        if: github.event_name != "release"
+        if: github.event_name != 'release'
         with:
           distribution: goreleaser
           version: latest
@@ -32,7 +32,7 @@ jobs:
 
       - name: Build with publishing
         uses: goreleaser/goreleaser-action@v3
-        if: github.event_name == "release"
+        if: github.event_name == 'release'
         with:
           distribution: goreleaser
           version: latest

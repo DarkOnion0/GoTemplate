@@ -9,7 +9,7 @@ on:
 jobs:
   Generate-Release-Changelog:
     runs-on: ubuntu-latest
-    if: github.event_name == "release"
+    if: github.event_name == 'release'
     permissions:
       contents: write
     steps:
@@ -23,7 +23,6 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.05
 
       - name: Format tag
-        if: github.event_name != 'workflow_dispatch'
         run: |
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
@@ -31,11 +30,9 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Generate a changelog with git-cliff (release)
-        if: github.event_name == "release"
-        run: nix-shell --command "just TYPE='release' generate_changelog"
+        run: nix-shell --command "just VERSION=${{ env.VERSION }} TYPE='release' generate_changelog"
 
       - name: Commit changelog (release)
-        if: github.event_name == "release"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore(release): publish changelog for ${{ env.VERSION }}, `GithubCI`"
@@ -48,7 +45,7 @@ jobs:
 
   Generate-Latest-Changelog:
     runs-on: ubuntu-latest
-    if: github.event_name == "schedule"
+    if: github.event_name == 'schedule'
     permissions:
       contents: write
     steps:
@@ -62,11 +59,9 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.05
 
       - name: Generate a changelog with git-cliff (cron)
-        if: github.event_name != "release"
         run: nix-shell --command "just generate_changelog"
 
       - name: Commit changelog (cron)
-        if: github.event_name != "release"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore(release): publish latest changelog, `GithubCI`"
