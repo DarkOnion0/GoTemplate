@@ -112,19 +112,15 @@ check: install
 check_full: check format lint
 
 # Generate the git changelog
-generate_changelog TYPE="latest":
+generate_changelog TYPE="":
     #!/usr/bin/env bash
     
     #@echo -e "\nGenerate the changelog with git-cliff"
     
-    if [ {{TYPE}} == "latest" ]; then
-        git-cliff --verbose --date-order --unreleased --prepend CHANGELOG.md
-    elif [ {{TYPE}} == "release" ]; then
-        git-cliff --verbose --date-order --latest --prepend CHANGELOG.md
-    elif [ {{TYPE}} == "ci" ]; then
-        git-cliff --verbose --date-order --latest | gh release edit --note-file - {{VERSION}}
+    if [ {{TYPE}} == "TYPE=ci" ]; then
+        git-cliff --verbose --date-order --latest | gh release edit --notes-file - {{VERSION}}
     else
-        echo -e "The statement {{TYPE}} is not supported, select either: latest, release or ci"
+        git-cliff --verbose --date-order -o CHANGELOG.md
     fi
 
 # App dev command, binary mode
