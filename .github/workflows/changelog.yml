@@ -30,7 +30,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Generate a changelog with git-cliff (release)
-        run: nix-shell --command "just VERSION=${{ env.VERSION }} generate_changelog TYPE='release'"
+        run: nix-shell --command "just VERSION=${{ env.VERSION }} generate_changelog"
 
       - name: Commit changelog (release)
         uses: stefanzweifel/git-auto-commit-action@v4
