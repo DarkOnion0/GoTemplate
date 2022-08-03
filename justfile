@@ -4,7 +4,7 @@
 set dotenv-load
 
 VERSION := "latest"
-PROJECT := "GoTemaplte"
+PROJECT := "GoTemplate"
 BINARY_NAME := "gotemplate"
 CONTAINER_NAME := "{{BINARY_NAME}}-dev"
 CONTAINER_BUILDER := "docker"
