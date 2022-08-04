@@ -137,3 +137,23 @@ dev_container: build_container
 install:
     @echo -e "\nInstall the go prerequisites"
     go mod download
+
+# Rename all the file in the project containing some User/Repo specific value
+rebrand_project:
+    #!/usr/bin/env bash
+
+    ##########
+    ## VARs ##
+    ##########
+
+    OldVar=("DarkOnion0" "darkonion0" "GoTemplate" "gotemplate")
+
+    #########
+    ## CMD ##
+    #########
+
+    for i in "${!OldVar[@]}"; do
+      read -e -p "Input the value to replace '${OldVar[$i]}': " NewVar
+
+      find . -path ./.git -prune -o -type f -exec sed -i -e "s/${OldVar[$i]}/$NewVar/g" {} \;
+    done
