@@ -23,7 +23,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.05
 
       - name: Lint code
-        run: nix-shell --command "just lint"
+        run: nix shell --command just lint
 
       - name: Commit code
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -47,7 +47,7 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.05
 
       - name: Format code
-        run: nix-shell --command "just format"
+        run: nix shell --command just format
 
       - name: Commit code
         uses: stefanzweifel/git-auto-commit-action@v4
