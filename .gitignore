@@ -14,4 +14,11 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# Disable tracking of goreleaser build folder
 dist/
+
+# Disable tracking of nix build output
+result
+
+# Disable direnv flake settings folder
+.direnv
