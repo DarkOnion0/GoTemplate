@@ -43,6 +43,9 @@ lint: install
     @echo -e "\nLint all go files"
     golangci-lint run --verbose --fix --timeout 5m .
 
+    @echo -e "\nCheck the flake input"
+    nix flake check
+
 # Format all the project files
 format:
     @echo -e "\nFormat go code"
@@ -79,8 +82,11 @@ generate_changelog TYPE="":
 
 # App dev command, binary mode
 dev ARGS: check
-    @echo -e "\nRun {{PROJECT}} in dev mode (binary)"
-    go run cli/main.go {{ARGS}}
+    #!/usr/bin/env bash
+
+    echo -e "\nRun {{PROJECT}} in dev mode (binary)"
+
+    go run main.go $(echo {{ARGS}} | sed -e "s/ARGS=//g" )
 
 # App dev command, container mode
 dev_container: build
