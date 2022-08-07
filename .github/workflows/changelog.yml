@@ -20,7 +20,8 @@ jobs:
 
       - uses: cachix/install-nix-action@v15
         with:
-          nix_path: nixpkgs=channel:nixos-22.05
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
       - name: Format tag
         run: |
@@ -30,7 +31,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Generate a changelog with git-cliff (release)
-        run: nix shell --command just VERSION=${{ env.VERSION }} generate_changelog
+        run: nix develop --command just VERSION=${{ env.VERSION }} generate_changelog
 
       - name: Commit changelog (release)
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -41,7 +42,7 @@ jobs:
       - name: Publish release note
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: nix shell --command just VERSION=${{ env.VERSION }} generate_changelog TYPE='ci'
+        run: nix develop --command just VERSION=${{ env.VERSION }} generate_changelog TYPE='ci'
 
   Generate-Latest-Changelog:
     runs-on: ubuntu-latest
@@ -56,10 +57,11 @@ jobs:
 
       - uses: cachix/install-nix-action@v15
         with:
-          nix_path: nixpkgs=channel:nixos-22.05
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate a changelog with git-cliff (cron)
-        run: nix shell --command just generate_changelog
+        run: nix develop --command just generate_changelog
 
       - name: Commit changelog (cron)
         uses: stefanzweifel/git-auto-commit-action@v4
