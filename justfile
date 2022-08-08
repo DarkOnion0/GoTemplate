@@ -74,7 +74,7 @@ generate_changelog TYPE="":
     
     #@echo -e "\nGenerate the changelog with git-cliff"
     
-    if [ {{TYPE}} == "TYPE=ci" ]; then
+    if [ {{TYPE}} == "ci" ]; then
         git-cliff --verbose --date-order --latest | gh release edit --notes-file - {{VERSION}}
     else
         git-cliff --verbose --date-order -o CHANGELOG.md
@@ -86,7 +86,7 @@ dev ARGS: check
 
     echo -e "\nRun {{PROJECT}} in dev mode (binary)"
 
-    go run main.go $(echo {{ARGS}} | sed -e "s/ARGS=//g" )
+    go run main.go {{ARGS}}
 
 # App dev command, container mode
 dev_container: build
