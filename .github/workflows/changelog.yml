@@ -42,7 +42,7 @@ jobs:
       - name: Publish release note
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: nix develop --command just VERSION=${{ env.VERSION }} generate_changelog TYPE='ci'
+        run: nix develop --command just VERSION=${{ env.VERSION }} generate_changelog ci
 
   Generate-Latest-Changelog:
     runs-on: ubuntu-latest
