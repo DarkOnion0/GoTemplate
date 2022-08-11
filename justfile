@@ -3,13 +3,35 @@
 # Just SETTINGS (vars...)
 set dotenv-load
 
+#####################
+## Global settings ##
+#####################
+
 VERSION := "latest"
 PROJECT := "GoTemplate"
+# Decide if the main build framework should be 'nix' or 'goreleaser'
+PACKAGE_BUILDER := "nix"
+
+
+############
+## Binary ##
+############
+
 BINARY_NAME := "gotemplate"
+
+###############
+## Container ##
+###############
+
 # Could be amd64, i389, armv6, armv7, armv8
 HOST_ARCH := "amd64"
 CONTAINER_NAME := "ghcr.io/darkonion0/gotemplate"
 CONTAINER_BUILDER := "docker"
+
+################
+## Shell Vars ##
+################
+
 export GH_TOKEN := ""
 export GH_REPO := env_var_or_default("GH_REPO", "DarkOnion0/{{PROJECT}}")
 
@@ -21,12 +43,17 @@ default:
 build: install
     #!/usr/bin/env bash
 
-    if [ {{VERSION}} == "latest" ]; then
-        echo "Running in dev mode, VERSION={{VERSION}}"
-        goreleaser release --snapshot --rm-dist
-    else
-        echo "Running in release mode, VERSION={{VERSION}}"
-        goreleaser release --snapshot
+    if [[ {{PACKAGE_BUILDER}} == "goreleaser" ]]; then
+        if [ {{VERSION}} == "latest" ]; then
+            echo "Running in dev mode, VERSION={{VERSION}}"
+            goreleaser release --snapshot --rm-dist
+        else
+            echo "Running in release mode, VERSION={{VERSION}}"
+            goreleaser release --snapshot
+        fi
+    else 
+        nix build .#gotemplate
+        nix build .#docker
     fi
 
 # Clean the remote GHCR container registry
@@ -86,12 +113,25 @@ dev ARGS: check
 
     echo -e "\nRun {{PROJECT}} in dev mode (binary)"
 
-    go run main.go {{ARGS}}
+    if [[ {{PACKAGE_BUILDER}} == "nix" ]]; then
+        nix run .#gotemplate -- {{ARGS}}
+    else 
+        go run main.go {{ARGS}}
+    fi
 
 # App dev command, container mode
-dev_container: build
-    @echo -e "\nRun {{PROJECT}} in dev mode (container)"
-    {{CONTAINER_BUILDER}} run -e DEBUG="true" {{CONTAINER_NAME}}:next-{{HOST_ARCH}}
+dev_container ENVs: build
+    #!/usr/bin/env bash
+
+    echo -e "\nRun {{PROJECT}} in dev mode (container)"
+
+    if [[ {{PACKAGE_BUILDER}} == "nix" ]]; then
+        nix build .#docker
+        TAG=$({{CONTAINER_BUILDER}} load < result  | grep gotemplate | sed -e "s|.*gotemplate:||g")
+        {{CONTAINER_BUILDER}} run -e {{ENVs}} gotemplate:$TAG
+    else
+        {{CONTAINER_BUILDER}} run -e {{ENVs}} {{CONTAINER_NAME}}:next-{{HOST_ARCH}}
+    fi
 
 # Run the prerequisites to install all the missing deps that nix can't cover
 install:
@@ -117,3 +157,6 @@ rebrand_project:
 
       find . -path ./.git -prune -o -type f -exec sed -i -e "s/${OldVar[$i]}/$NewVar/g" {} \;
     done
+
+    mv README.md README.md.old
+    mv README_TEMPLATE.md README.md
