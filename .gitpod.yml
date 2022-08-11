@@ -9,8 +9,15 @@ tasks:
 
 vscode:
   extensions:
-    - bbenoist.Nix
-    - golang.Go
-    - skellock.just
-    - bungcip.better-toml
+    # Nix
+    - jnoortheen.nix-ide
     - mkhl.direnv
+
+    # Go
+    - golang.Go
+
+    # Build
+    - skellock.just
+
+    # Other
+    - bungcip.better-toml
