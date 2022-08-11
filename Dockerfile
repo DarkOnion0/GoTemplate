@@ -1,4 +1,11 @@
-FROM docker.io/library/alpine:latest
+#############
+## WARNING ##
+#############
+
+# You need to keep this file in sync with docker image inside `flake.nix` if you are using goreleaser
+# and nix at the same time to build the docker image
+
+FROM docker.io/library/busybox:stable-uclibc
 
 WORKDIR /src/app
 
