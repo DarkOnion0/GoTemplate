@@ -23,6 +23,11 @@
         pkgsUnstable = nixpkgsUnstable.legacyPackages.${system};
 
         # Docker image
+        # WARNING: these docker image are immutable, if you want to update them you will
+        # need to update the attr set with the following command:
+        # nix-prefetch-docker --image-name docker.io/library/busybox --image-tag stable-uclibc --arch [DOCKER_ARCH] --os [DOCKER_OS]
+        #
+        # TODO: automate the update command above
         dockerImage = pkgs.dockerTools.pullImage rec {
           # Linux
           aarch64-linux = {
@@ -72,6 +77,13 @@
 
             vendorSha256 = "sha256-n4uwlf7TI2EtWJWNkkaStKR2lCexjmx/SP2Pc0939II=";
           };
+
+          #############
+          ## WARNING ##
+          #############
+
+          # You need to keep this file in sync with the docker image inside `Dockerfile` if you are using
+          # nix and goreleaser at the same time to build the docker image
 
           docker = pkgs.dockerTools.buildLayeredImage {
             name = default.pname;
