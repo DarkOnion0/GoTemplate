@@ -22,3 +22,6 @@ result
 
 # Disable direnv flake settings folder
 .direnv
+
+# Disable tracking depreacated files
+*.old
