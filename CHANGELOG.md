@@ -19,6 +19,12 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous Tasks
 
 - Update .gitignore
+- Publish latest changelog, `GithubCI`
+- Add nix lsp setting
+- Update project documentation
+- Add an exclusion rule in gitignore
+- Add MIT licence
+- Fix typo
 
 ### Refactor
 
@@ -26,6 +32,7 @@ All notable changes to this project will be documented in this file.
 
 ### Styling
 
+- Format code, `GithubCI`
 - Format code, `GithubCI`
 
 ### Build
@@ -42,6 +49,12 @@ All notable changes to this project will be documented in this file.
 - Add nix flakes support
 - [**breaking**] Switch to nix flakes
 - Fix a bug in `dev` recipe and update `lint` recipe
+- [**breaking**] Reformat some recipes
+- Add docker image building
+- Update vscode extension
+- Add a comment and migrate to a smaller base image
+- Add comment
+- Update the file to support nix and the template structure
 
 ### Ci
 
@@ -51,6 +64,7 @@ All notable changes to this project will be documented in this file.
 - Switch all the nix command to support nix flakes, see ccbfcb7fba27db610ef6ef5a51730d5e241996c3
 - Fix errors by enabling flakes support in the nix conf
 - Add build support for the nix package
+- Reflect changes from 717daea5a91c5f42790e56ad41c959461e53518f
 
 ### Reformat
 
