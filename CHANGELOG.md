@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Add an exclusion rule in gitignore
 - Add MIT licence
 - Fix typo
+- Publish latest changelog, `GithubCI`
 
 ### Refactor
 
