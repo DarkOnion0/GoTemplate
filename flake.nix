@@ -8,7 +8,7 @@
   };
 
   outputs = { self, flake-utils, nixpkgs, nixpkgsUnstable }:
-    flake-utils.lib.eachDefaultSystem (system:
+  flake-utils.lib.eachSystem [ flake-utils.lib.system.x86_64-linux flake-utils.lib.system.aarch64-linux flake-utils.lib.system.i686-linux ] (system:
       let
         inherit (builtins) substring;
 
@@ -57,10 +57,6 @@
             os = "linux";
             arch = "amd64";
           };
-
-          # MacOS
-          aarch64-darwin = i686-linux;
-          x86_64-darwin = x86_64-linux;
         }.${system};
       in
       rec {
