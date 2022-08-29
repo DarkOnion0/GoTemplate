@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 - Add MIT licence
 - Fix typo
 - Publish latest changelog, `GithubCI`
+- Publish latest changelog, `GithubCI`
 
 ### Refactor
 
@@ -33,6 +34,7 @@ All notable changes to this project will be documented in this file.
 
 ### Styling
 
+- Format code, `GithubCI`
 - Format code, `GithubCI`
 - Format code, `GithubCI`
 
@@ -56,6 +58,8 @@ All notable changes to this project will be documented in this file.
 - Add a comment and migrate to a smaller base image
 - Add comment
 - Update the file to support nix and the template structure
+- [**breaking**] Restrict system to linux only
+- Update flake lock
 
 ### Ci
 
