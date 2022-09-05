@@ -27,6 +27,7 @@ All notable changes to this project will be documented in this file.
 - Fix typo
 - Publish latest changelog, `GithubCI`
 - Publish latest changelog, `GithubCI`
+- Publish latest changelog, `GithubCI`
 
 ### Refactor
 
@@ -60,6 +61,7 @@ All notable changes to this project will be documented in this file.
 - Update the file to support nix and the template structure
 - [**breaking**] Restrict system to linux only
 - Update flake lock
+- Bump github.com/rs/zerolog from 1.27.0 to 1.28.0
 
 ### Ci
 
