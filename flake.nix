@@ -71,7 +71,7 @@
 
             src = ./.;
 
-            vendorSha256 = "sha256-n4uwlf7TI2EtWJWNkkaStKR2lCexjmx/SP2Pc0939II=";
+            vendorSha256 = "sha256-okhw4jZ4PCBC8zDQHAixSaoJv5EVyj6lN0u3f0c/6gA=";
           };
 
           #############
