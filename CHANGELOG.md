@@ -30,6 +30,7 @@ All notable changes to this project will be documented in this file.
 - Publish latest changelog, `GithubCI`
 - Publish latest changelog, `GithubCI`
 - Publish latest changelog, `GithubCI`
+- Publish latest changelog, `GithubCI`
 
 ### Refactor
 
@@ -64,6 +65,8 @@ All notable changes to this project will be documented in this file.
 - [**breaking**] Restrict system to linux only
 - Update flake lock
 - Bump github.com/rs/zerolog from 1.27.0 to 1.28.0
+- Update vendor
+- Update lock file
 
 ### Ci
 
