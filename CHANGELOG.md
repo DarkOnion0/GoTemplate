@@ -39,6 +39,7 @@ All notable changes to this project will be documented in this file.
 - Update parsing rule
 - Publish latest changelog, `GithubCI`
 - Publish latest changelog, `GithubCI`
+- Publish latest changelog, `GithubCI`
 
 ### Refactor
 
